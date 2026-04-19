@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CorpoFit Academia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#00aaff;--blueglow:rgba(0,170,255,0.3);--black:#060810;--dark:#0b0f1c;--card:#0e1424;--border:#192038;--silver:#c4cdd8;--white:#edf2ff}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:"Exo 2",sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;cursor:none}
+.cursor{width:10px;height:10px;background:var(--blue);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .18s,height .18s;mix-blend-mode:screen}
+.cursor-ring{width:34px;height:34px;border:1.5px solid var(--blue);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.5}
+@media(max-width:768px){.cursor,.cursor-ring{display:none}}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(0,170,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,170,255,.035) 1px,transparent 1px);background-size:55px 55px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 48px;background:rgba(6,8,16,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
+nav.scrolled{padding:8px 48px}
+.nav-logo img{height:48px;filter:drop-shadow(0 0 10px var(--blue));transition:filter .3s,transform .3s}
+.nav-logo img:hover{filter:drop-shadow(0 0 26px var(--blue));transform:scale(1.05)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{text-decoration:none;font-family:"Rajdhani",sans-serif;font-weight:600;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--silver);position:relative;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--blue);transform:scaleX(0);transition:transform .3s;box-shadow:0 0 8px var(--blue)}
+.nav-links a:hover{color:var(--blue)}.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{background:var(--blue)!important;color:#060810!important;padding:9px 22px;border-radius:4px;font-weight:700!important;box-shadow:0 0 18px var(--blueglow)}
+.nav-cta::after{display:none!important}
+.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-burger span{display:block;width:24px;height:2px;background:var(--silver);transition:all .3s}
+.mobile-menu{display:none;position:fixed;top:72px;left:0;right:0;background:rgba(6,8,16,.99);border-bottom:1px solid var(--border);padding:20px 24px;flex-direction:column;gap:16px;z-index:99}
+.mobile-menu.open{display:flex}
+.mobile-menu a{text-decoration:none;font-family:"Rajdhani",sans-serif;font-weight:600;font-size:16px;letter-spacing:2px;text-transform:uppercase;color:var(--silver);padding:10px 0;border-bottom:1px solid var(--border);transition:color .3s}
+.mobile-menu a:hover{color:var(--blue)}
+.mobile-menu .mob-cta{background:var(--blue);color:#060810!important;padding:12px 16px;border-radius:4px;text-align:center;border:none;margin-top:4px}
+@media(max-width:768px){nav{padding:12px 20px}.nav-links{display:none}.nav-burger{display:flex}}
+.hero{min-height:100vh;display:flex;align-items:center;padding:90px 48px 60px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 72% 50%,rgba(0,110,220,.14) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 15% 80%,rgba(0,170,255,.07) 0%,transparent 55%)}
+.hero-particles{position:absolute;inset:0;overflow:hidden}
+.particle{position:absolute;background:var(--blue);border-radius:50%;animation:fp linear infinite;opacity:0}
+@keyframes fp{0%{transform:translateY(100vh);opacity:0}10%{opacity:.7}90%{opacity:.3}100%{transform:translateY(-8vh) translateX(25px);opacity:0}}
+.hero-content{position:relative;z-index:2;max-width:640px}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font-family:"Rajdhani",sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:22px;animation:fiu .8s ease both}
+.hero-tag::before{content:"";width:36px;height:1px;background:var(--blue)}
+h1.ht{font-family:"Bebas Neue",cursive;font-size:clamp(62px,9.5vw,122px);line-height:.9;margin-bottom:22px;animation:fiu .8s .15s ease both}
+.chrome{background:linear-gradient(180deg,#fff 0%,#a8b8cc 50%,#5878a0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.bluet{color:var(--blue);text-shadow:0 0 36px var(--blue)}
+.hero-sub{font-size:16px;font-weight:300;line-height:1.75;color:#8090b0;max-width:460px;margin-bottom:14px;animation:fiu .8s .28s ease both}
+.hero-sub strong{color:var(--blue);font-weight:700}
+.hero-price{font-family:"Rajdhani",sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#5a6a8a;margin-bottom:34px;animation:fiu .8s .35s ease both}
+.hero-price span{font-family:"Bebas Neue",cursive;font-size:36px;color:var(--blue);text-shadow:0 0 18px var(--blue);letter-spacing:1px;margin:0 4px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fiu .8s .44s ease both}
+.btn-p{display:inline-flex;align-items:center;gap:10px;background:var(--blue);color:#060810;padding:14px 32px;font-family:"Rajdhani",sans-serif;font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:4px;box-shadow:0 0 28px var(--blueglow);transition:all .3s}
+.btn-p:hover{box-shadow:0 0 55px var(--blue);transform:translateY(-3px)}
+.btn-o{display:inline-flex;align-items:center;gap:10px;border:1.5px solid var(--border);color:var(--silver);padding:14px 32px;font-family:"Rajdhani",sans-serif;font-weight:600;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:all .3s}
+.btn-o:hover{border-color:var(--blue);color:var(--blue);background:rgba(0,170,255,.06);transform:translateY(-3px)}
+.hero-3d{position:absolute;right:4%;top:50%;transform:translateY(-50%);z-index:1;animation:fir 1s .35s ease both}
+.logo3d{width:340px;height:340px;position:relative;display:flex;align-items:center;justify-content:center}
+.logo3d img{width:260px;animation:lfloat 4s ease-in-out infinite,lglow 3s ease-in-out infinite alternate;position:relative;z-index:2}
+@keyframes lfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes lglow{from{filter:drop-shadow(0 0 28px rgba(0,170,255,.45))}to{filter:drop-shadow(0 0 65px rgba(0,170,255,.9))}}
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(0,170,255,.18);animation:spinr linear infinite}
+.r1{width:300px;height:300px;animation-duration:11s;border-style:dashed}
+.r2{width:360px;height:360px;animation-duration:19s;animation-direction:reverse}
+.r3{width:420px;height:420px;animation-duration:28s;border-style:dashed;opacity:.35}
+@keyframes spinr{to{transform:rotate(360deg)}}
+@media(max-width:1024px){.hero-3d{right:-5%;opacity:.3}}
+@media(max-width:768px){.hero{padding:80px 20px 40px}.hero-3d{display:none}.hero-content{max-width:100%}}
+.stats{position:relative;z-index:2;display:flex;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden}
+.stt{flex:1;padding:26px 12px;text-align:center;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .3s}
+.stt:last-child{border-right:none}
+.stt::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,170,255,.06),transparent);opacity:0;transition:opacity .3s}
+.stt:hover::before{opacity:1}
+.stn{font-family:"Bebas Neue",cursive;font-size:44px;background:linear-gradient(180deg,#fff,#6888a8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;transition:all .3s}
+.stt:hover .stn{-webkit-text-fill-color:var(--blue)}
+.stl{font-family:"Rajdhani",sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(130,150,180,.8);margin-top:5px}
+@media(max-width:480px){.stn{font-size:30px}.stl{font-size:9px;letter-spacing:1px}}
+section{position:relative;z-index:2}
+.sp{padding:90px 48px}
+.inner{max-width:1180px;margin:0 auto}
+.stag{display:inline-flex;align-items:center;gap:12px;font-family:"Rajdhani",sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
+.stag::before,.stag::after{content:"";flex:1;height:1px;background:var(--blue);opacity:.35;min-width:28px}
+.stitle{font-family:"Bebas Neue",cursive;font-size:clamp(40px,5.5vw,74px);line-height:1;margin-bottom:12px}
+.stitle .b{color:var(--blue)}
+@media(max-width:768px){.sp{padding:60px 20px}}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px;perspective:1200px}
+@media(max-width:900px){.sgrid{grid-template-columns:1fr}}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:38px 30px;position:relative;overflow:hidden;transition:border-color .4s,box-shadow .4s;cursor:default}
+.scard::before{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--blue);transform:scaleX(0);transition:transform .4s;box-shadow:0 0 10px var(--blue)}
+.scard::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(0,170,255,.09),transparent 60%);opacity:0;transition:opacity .4s}
+.scard:hover{border-color:rgba(0,170,255,.4);box-shadow:0 18px 55px rgba(0,170,255,.11)}
+.scard:hover::before{transform:scaleX(1)}.scard:hover::after{opacity:1}
+.scard:hover .sicon{transform:scale(1.12) rotate(-5deg);filter:drop-shadow(0 0 18px var(--blue))}
+.sicon{font-size:48px;margin-bottom:20px;display:block;transition:transform .4s,filter .4s}
+.sname{font-family:"Bebas Neue",cursive;font-size:28px;margin-bottom:10px}
+.sdesc{font-size:14px;line-height:1.7;color:#5f6f90}
+.price-section{background:rgba(11,15,28,.7);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.price-box{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-top:48px}
+.price-left .plabel{font-family:"Rajdhani",sans-serif;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:rgba(130,150,180,.8);margin-bottom:8px}
+.price-left .pval{font-family:"Bebas Neue",cursive;font-size:clamp(64px,8vw,108px);line-height:1;color:var(--blue);text-shadow:0 0 40px var(--blue),0 0 80px rgba(0,170,255,.3)}
+.price-left .psub{font-size:15px;color:#6070a0;margin-top:6px}
+.price-left .psub strong{color:var(--white)}
+.price-right{display:flex;flex-direction:column;gap:16px;max-width:440px;flex:1}
+.price-feat{display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(0,170,255,.05);border:1px solid rgba(0,170,255,.15);border-radius:6px;transition:all .3s}
+.price-feat:hover{background:rgba(0,170,255,.1);border-color:rgba(0,170,255,.35);transform:translateX(6px)}
+.pf-icon{width:38px;height:38px;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.pf-text{font-family:"Rajdhani",sans-serif;font-size:15px;font-weight:600;letter-spacing:1px;color:var(--white)}
+.pf-sub{font-size:12px;color:#6070a0;margin-top:2px}
+@media(max-width:700px){.price-box{flex-direction:column}.price-left{text-align:center;width:100%}}
+.hgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:46px}
+@media(max-width:600px){.hgrid{grid-template-columns:1fr}.hcard.span2{grid-column:1!important}}
+.hcard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:26px 30px;display:flex;align-items:center;gap:20px;transition:all .4s;position:relative;overflow:hidden}
+.hcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);box-shadow:0 0 10px var(--blue);transform:scaleY(0);transition:transform .4s}
+.hcard:hover{border-color:rgba(0,170,255,.3);transform:translateX(7px)}
+.hcard:hover::before{transform:scaleY(1)}
+.hicon{font-size:34px;flex-shrink:0}
+.hday{font-family:"Rajdhani",sans-serif;font-weight:700;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:5px}
+.htime{font-family:"Bebas Neue",cursive;font-size:26px;letter-spacing:1px}
+.contato{background:var(--dark);border-top:1px solid var(--border)}
+.cinner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;padding:90px 48px}
+@media(max-width:768px){.cinner{grid-template-columns:1fr;gap:40px;padding:60px 20px}}
+.clogo img{width:190px;filter:drop-shadow(0 0 18px rgba(0,170,255,.4));margin-bottom:20px;display:block}
+.ctag{font-size:14px;color:#5a6a8a;line-height:1.7;max-width:340px}
+.clinks{display:flex;flex-direction:column;gap:14px}
+.citem{display:flex;align-items:center;gap:14px;text-decoration:none;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px;transition:all .3s;color:var(--silver);font-size:14px}
+.citem:hover{border-color:var(--blue);background:rgba(0,170,255,.06);transform:translateX(7px);color:var(--white)}
+.cicon{width:42px;height:42px;background:rgba(0,170,255,.1);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:background .3s,box-shadow .3s}
+.citem:hover .cicon{background:var(--blue);box-shadow:0 0 18px var(--blue)}
+.clabel{font-family:"Rajdhani",sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#3a4a62;margin-bottom:1px}
+footer{border-top:1px solid var(--border);padding:20px 48px;display:flex;align-items:center;justify-content:space-between;font-family:"Rajdhani",sans-serif;font-size:12px;letter-spacing:1px;color:#2a3a52;flex-wrap:wrap;gap:8px}
+@media(max-width:480px){footer{padding:16px 20px;justify-content:center;text-align:center}}
+footer span{color:var(--blue)}
+@keyframes fiu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fir{from{opacity:0;transform:translateX(55px) translateY(-50%)}to{opacity:1;transform:translateX(0) translateY(-50%)}}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .75s,transform .75s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.wa-float{position:fixed;bottom:24px;right:24px;width:60px;height:60px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:95;box-shadow:0 6px 22px rgba(37,211,102,.45),0 0 0 0 rgba(37,211,102,.55);text-decoration:none;transition:transform .3s,box-shadow .3s;animation:wapulse 2.2s ease-out infinite}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(37,211,102,.7)}
+.wa-float svg{width:34px;height:34px;fill:#fff}
+.wa-tip{position:absolute;right:74px;top:50%;transform:translateY(-50%) translateX(10px);background:var(--card);border:1px solid var(--border);color:var(--white);padding:8px 14px;border-radius:6px;font-family:"Rajdhani",sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.wa-float:hover .wa-tip{opacity:1;transform:translateY(-50%) translateX(0)}
+.wa-tip::after{content:"";position:absolute;right:-6px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-left-color:var(--border)}
+@keyframes wapulse{0%{box-shadow:0 6px 22px rgba(37,211,102,.45),0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 6px 22px rgba(37,211,102,.45),0 0 0 18px rgba(37,211,102,0)}100%{box-shadow:0 6px 22px rgba(37,211,102,.45),0 0 0 0 rgba(37,211,102,0)}}
+@media(max-width:480px){.wa-float{bottom:18px;right:18px;width:54px;height:54px}.wa-float svg{width:30px;height:30px}.wa-tip{display:none}}
+.map-wrap{margin-top:52px;border-radius:10px;overflow:hidden;border:1px solid var(--border);position:relative;box-shadow:0 18px 55px rgba(0,0,0,.35);transition:border-color .4s,box-shadow .4s}
+.map-wrap:hover{border-color:rgba(0,170,255,.4);box-shadow:0 18px 55px rgba(0,170,255,.15)}
+.map-wrap iframe{display:block;width:100%;height:380px;border:0;filter:grayscale(35%) contrast(1.05)}
+.map-wrap::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 60px rgba(6,8,16,.5)}
+.map-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 26px;background:var(--card);border-top:1px solid var(--border);flex-wrap:wrap}
+.map-addr{font-family:"Rajdhani",sans-serif;font-size:14px;letter-spacing:1px;color:var(--silver)}
+.map-addr strong{color:var(--blue);font-weight:700;display:block;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:3px}
+.map-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#060810;padding:10px 20px;font-family:"Rajdhani",sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:4px;box-shadow:0 0 18px var(--blueglow);transition:all .3s}
+.map-btn:hover{box-shadow:0 0 32px var(--blue);transform:translateY(-2px)}
+@media(max-width:600px){.map-wrap iframe{height:280px}.map-cta{padding:14px 18px}}
+.plans-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:52px}
+@media(max-width:820px){.plans-grid{grid-template-columns:1fr}}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:38px 32px;position:relative;overflow:hidden;transition:all .4s;display:flex;flex-direction:column}
+.plan::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,170,255,.08),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+.plan:hover{border-color:rgba(0,170,255,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,170,255,.12)}
+.plan:hover::before{opacity:1}
+.plan.featured{border-color:rgba(0,170,255,.55);background:linear-gradient(180deg,rgba(0,170,255,.04),var(--card) 60%);box-shadow:0 0 0 1px rgba(0,170,255,.2),0 18px 50px rgba(0,170,255,.08)}
+.plan.featured::after{content:"MAIS COMPLETO";position:absolute;top:18px;right:-44px;background:var(--blue);color:#060810;font-family:"Rajdhani",sans-serif;font-weight:700;font-size:10px;letter-spacing:2.5px;padding:5px 50px;transform:rotate(35deg);box-shadow:0 0 18px var(--blueglow)}
+.plan-name{font-family:"Rajdhani",sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.plan-sub{font-size:13px;color:#6070a0;margin-bottom:22px}
+.plan-price{display:flex;align-items:baseline;gap:4px;margin-bottom:6px}
+.plan-price .currency{font-family:"Rajdhani",sans-serif;font-size:22px;color:var(--silver);font-weight:600}
+.plan-price .value{font-family:"Bebas Neue",cursive;font-size:clamp(58px,7vw,90px);line-height:1;color:var(--blue);text-shadow:0 0 34px var(--blue),0 0 70px rgba(0,170,255,.25)}
+.plan-price .period{font-family:"Rajdhani",sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#6070a0;margin-left:6px}
+.plan-tagline{font-size:14px;color:var(--silver);margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid var(--border);line-height:1.55}
+.plan-features{display:flex;flex-direction:column;gap:12px;flex:1;margin-bottom:26px}
+.plan-feat{display:flex;align-items:center;gap:12px;font-family:"Rajdhani",sans-serif;font-size:14px;letter-spacing:.5px;color:var(--white)}
+.plan-feat.off{color:#4a5670}
+.plan-feat .check{width:22px;height:22px;border-radius:50%;background:rgba(0,170,255,.15);border:1px solid rgba(0,170,255,.35);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--blue);flex-shrink:0}
+.plan-feat.off .check{background:rgba(80,95,120,.08);border-color:rgba(80,95,120,.25);color:#4a5670}
+.plan .btn-p,.plan .btn-o{justify-content:center;padding:14px 22px}
+.gallery-section{background:rgba(11,15,28,.4);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.gperks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;margin-bottom:44px}
+@media(max-width:820px){.gperks{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.gperks{grid-template-columns:1fr}}
+.gperk{display:flex;align-items:center;gap:14px;padding:16px 18px;background:rgba(0,170,255,.04);border:1px solid rgba(0,170,255,.15);border-radius:8px;transition:all .3s}
+.gperk:hover{background:rgba(0,170,255,.09);border-color:rgba(0,170,255,.35);transform:translateY(-3px)}
+.gp-icon{font-size:26px;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(0,170,255,.5))}
+.gp-text{font-family:"Rajdhani",sans-serif;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--white);line-height:1.3}
+.gp-sub{font-size:11px;color:#6070a0;letter-spacing:.5px;margin-top:2px;text-transform:none;font-weight:400}
+.carousel{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:0 18px 55px rgba(0,0,0,.4);max-width:520px;margin:0 auto}
+.carousel-track{display:flex;transition:transform .7s cubic-bezier(.65,.05,.35,1);will-change:transform}
+.slide{min-width:100%;position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--dark)}
+@media(max-width:700px){.carousel{max-width:100%}.slide{aspect-ratio:3/4}}
+.slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.8s cubic-bezier(.25,.1,.25,1),filter .6s;filter:brightness(.78) contrast(1.05)}
+.slide.active img{animation:slowZoom 8s ease-out forwards}
+.carousel:hover .slide.active img{transform:scale(1.08);filter:brightness(.88) contrast(1.05)}
+@keyframes slowZoom{from{transform:scale(1.02)}to{transform:scale(1.08)}}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,8,16,0) 40%,rgba(6,8,16,.92) 100%);pointer-events:none}
+.slide-caption{position:absolute;bottom:0;left:0;right:0;padding:28px 30px 36px;z-index:2;transform:translateY(20px);opacity:0;transition:transform .8s .3s,opacity .8s .3s}
+.slide.active .slide-caption{transform:translateY(0);opacity:1}
+.slide-caption .sctag{display:inline-block;font-family:"Rajdhani",sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);background:rgba(0,170,255,.12);border:1px solid rgba(0,170,255,.35);padding:4px 10px;border-radius:3px;margin-bottom:10px}
+.slide-caption h3{font-family:"Bebas Neue",cursive;font-size:clamp(24px,2.4vw,32px);line-height:1;margin-bottom:8px;color:var(--white);text-shadow:0 2px 20px rgba(0,0,0,.6)}
+.slide-caption p{font-size:13px;color:#c4cdd8;line-height:1.55;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+@media(max-width:600px){.slide-caption{padding:22px 20px 30px}}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;background:rgba(6,8,16,.72);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--white);cursor:pointer;z-index:4;transition:all .3s;font-family:inherit}
+.car-btn:hover{background:var(--blue);border-color:var(--blue);color:#060810;box-shadow:0 0 25px var(--blueglow)}
+.car-btn svg{width:20px;height:20px;fill:currentColor}
+.car-prev{left:18px}.car-next{right:18px}
+@media(max-width:600px){.car-btn{width:44px;height:44px}.car-prev{left:10px}.car-next{right:10px}}
+.car-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5}
+@media(max-width:700px){.car-dots{bottom:12px}}
+.car-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;transition:all .3s;padding:0;font-family:inherit}
+.car-dot.active{background:var(--blue);width:26px;border-radius:4px;box-shadow:0 0 10px var(--blue)}
+.car-dot:hover:not(.active){background:rgba(255,255,255,.6)}
+</style>
+</head>
+<body>
+<a href="https://wa.me/5563992261135" target="_blank" class="wa-float" aria-label="Fale conosco no WhatsApp">
+<span class="wa-tip">Fale conosco!</span>
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.003 3C9.374 3 4 8.373 4 15c0 2.39.702 4.618 1.913 6.494L4 29l7.693-1.876A11.94 11.94 0 0 0 16.003 27C22.632 27 28 21.627 28 15S22.632 3 16.003 3Zm0 21.818c-1.943 0-3.742-.58-5.246-1.572l-.376-.247-4.567 1.114 1.134-4.451-.245-.386A9.796 9.796 0 0 1 6.18 15c0-5.41 4.413-9.818 9.823-9.818 5.411 0 9.82 4.408 9.82 9.818s-4.409 9.818-9.82 9.818Zm5.395-7.354c-.296-.148-1.75-.862-2.02-.96-.27-.099-.467-.148-.663.148-.197.296-.762.96-.934 1.157-.173.198-.345.222-.641.074-.296-.148-1.25-.46-2.382-1.47-.88-.786-1.475-1.757-1.647-2.053-.173-.296-.019-.455.13-.602.133-.132.296-.345.444-.518.148-.173.197-.296.296-.493.098-.198.049-.37-.025-.518-.074-.148-.663-1.6-.908-2.19-.24-.576-.483-.497-.663-.506l-.566-.01a1.09 1.09 0 0 0-.787.37c-.27.296-1.03 1.006-1.03 2.453 0 1.447 1.054 2.846 1.202 3.043.148.198 2.074 3.168 5.026 4.442.702.303 1.25.484 1.676.62.704.224 1.345.192 1.852.117.565-.084 1.75-.715 1.997-1.405.246-.69.246-1.281.172-1.406-.074-.123-.27-.197-.566-.345Z"/></svg>
+</a>
+<div class="cursor" id="c"></div>
+<div class="cursor-ring" id="cr"></div>
+
+<nav id="nav">
+<a class="nav-logo" href="#"><img src="photo.png" alt="CorpoFit Academia"></a>
+<ul class="nav-links">
+<li><a href="#servicos">Serviços</a></li>
+<li><a href="#galeria">Galeria</a></li>
+<li><a href="#preco">Planos</a></li>
+<li><a href="#horarios">Horários</a></li>
+<li><a href="#localizacao">Local</a></li>
+<li><a href="#contato" class="nav-cta">Contato</a></li>
+</ul>
+<div class="nav-burger" onclick="toggleMenu()">
+<span></span><span></span><span></span>
+</div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+<a href="#servicos" onclick="toggleMenu()">Serviços</a>
+<a href="#galeria" onclick="toggleMenu()">Galeria</a>
+<a href="#preco" onclick="toggleMenu()">Planos</a>
+<a href="#horarios" onclick="toggleMenu()">Horários</a>
+<a href="#localizacao" onclick="toggleMenu()">Local</a>
+<a href="#contato" class="mob-cta" onclick="toggleMenu()">Contato</a>
+</div>
+
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-particles" id="pts"></div>
+<div class="hero-content">
+<div class="hero-tag">Academia Premium · Araguaína</div>
+<h1 class="ht">
+    <span class="chrome">TRANSFORMA</span><br>
+    <span class="bluet">SEU</span><br>
+    <span class="chrome">CORPO</span>
+</h1>
+<p class="hero-sub">Musculação, funcional e personal trainer —<br>tudo por <strong>um único preço</strong>.</p>
+<div class="hero-price">Nosso plano mais completo por <span>R$ 90</span>/mês</div>
+<div class="hero-btns">
+    <a href="https://wa.me/5563992261135" target="_blank" class="btn-p">💬 Fale no WhatsApp</a>
+    <a href="#servicos" class="btn-o">Ver Serviços →</a>
+</div>
+</div>
+<div class="hero-3d">
+<div class="logo3d">
+    <div class="ring r1"></div>
+    <div class="ring r2"></div>
+    <div class="ring r3"></div>
+    <img src="photo.png" alt="CorpoFit">
+</div>
+</div>
+</section>
+
+<div class="stats">
+<div class="stt reveal"><div class="stn">3</div><div class="stl">Modalidades</div></div>
+<div class="stt reveal"><div class="stn">R$90</div><div class="stl">Mensalidade</div></div>
+<div class="stt reveal"><div class="stn">16H</div><div class="stl">Dias úteis</div></div>
+<div class="stt reveal"><div class="stn">5:30</div><div class="stl">Abre cedo</div></div>
+</div>
+
+<section class="sp" id="servicos">
+<div class="inner">
+<div class="stag">O que oferecemos</div>
+<h2 class="stitle reveal">NOSSOS <span class="b">SERVIÇOS</span></h2>
+<p style="color:#5f6f90;font-size:15px;max-width:460px" class="reveal">Tudo que você precisa para atingir seus objetivos, em um só lugar.</p>
+<div class="sgrid">
+    <div class="scard reveal">
+    <span class="sicon">🏋️</span>
+    <div class="sname">Musculação</div>
+    <p class="sdesc">Equipamentos modernos e ambiente motivador para construir o corpo que sempre quis. Treinos para todos os níveis.</p>
+    </div>
+    <div class="scard reveal">
+    <span class="sicon">⚡</span>
+    <div class="sname">Aula Funcional</div>
+    <p class="sdesc">Treinamento de alta intensidade para queima de gordura, condicionamento e resistência de forma dinâmica e divertida.</p>
+    </div>
+    <div class="scard reveal">
+    <span class="sicon">👊</span>
+    <div class="sname">Personal Trainer</div>
+    <p class="sdesc">Acompanhamento especializado com profissionais dedicados a maximizar seus resultados com segurança e eficiência.</p>
+    </div>
+</div>
+</div>
+</section>
+
+<section class="sp gallery-section" id="galeria">
+<div class="inner">
+<div class="stag">Nosso espaço</div>
+<h2 class="stitle reveal">CONHEÇA A <span class="b">ACADEMIA</span></h2>
+<p style="color:#5f6f90;font-size:15px;max-width:520px" class="reveal">Um ambiente pensado pra você treinar com conforto, segurança e motivação todos os dias.</p>
+
+<div class="gperks reveal">
+<div class="gperk"><div class="gp-icon">✨</div><div><div class="gp-text">Equipamentos Novos</div><div class="gp-sub">Linha atualizada e conservada</div></div></div>
+<div class="gperk"><div class="gp-icon">❄️</div><div><div class="gp-text">Ambiente Climatizado</div><div class="gp-sub">Ventilação em toda a área</div></div></div>
+<div class="gperk"><div class="gp-icon">🧼</div><div><div class="gp-text">Sempre Limpo</div><div class="gp-sub">Higienização constante</div></div></div>
+<div class="gperk"><div class="gp-icon">📐</div><div><div class="gp-text">Espaço Amplo</div><div class="gp-sub">Sem aglomeração pra treinar</div></div></div>
+</div>
+
+<div class="carousel reveal" id="carousel">
+<div class="carousel-track" id="carouselTrack">
+
+<div class="slide active">
+<img src="fotos/gym3.jpg" alt="Vista ampla da academia com alunos treinando" loading="eager">
+<div class="slide-caption">
+<span class="sctag">Comunidade Ativa</span>
+<h3>UMA ACADEMIA QUE PULSA</h3>
+<p>Ambiente motivador com alunos de todos os níveis treinando juntos. Energia que contagia do primeiro dia.</p>
+</div>
+</div>
+
+<div class="slide">
+<img src="fotos/gym1.jpg" alt="Leg press e cadeira extensora novos" loading="lazy">
+<div class="slide-caption">
+<span class="sctag">Equipamentos Novos</span>
+<h3>MÁQUINAS DE ÚLTIMA GERAÇÃO</h3>
+<p>Linha completa de musculação com equipamentos modernos, conservados e dispostos em um espaço amplo e seguro.</p>
+</div>
+</div>
+
+<div class="slide">
+<img src="fotos/gym5.jpg" alt="Área de peso livre com halteres e bancos" loading="lazy">
+<div class="slide-caption">
+<span class="sctag">Peso Livre Completo</span>
+<h3>HALTERES DE 1 A 40 KG</h3>
+<p>Área dedicada ao peso livre com bancos reguláveis, halteres em todas as cargas e espaço pra treinar sem esperar.</p>
+</div>
+</div>
+
+<div class="slide">
+<img src="fotos/gym2.jpg" alt="Área funcional com kettlebells e sandbag" loading="lazy">
+<div class="slide-caption">
+<span class="sctag">Funcional</span>
+<h3>ÁREA FUNCIONAL COMPLETA</h3>
+<p>Kettlebells, sandbags, bancos reguláveis e equipamentos específicos pra quem busca condicionamento de verdade.</p>
+</div>
+</div>
+
+<div class="slide">
+<img src="fotos/gym7.jpg" alt="Cross-over e equipamentos de polia" loading="lazy">
+<div class="slide-caption">
+<span class="sctag">Espaço Amplo</span>
+<h3>LUGAR PRA TODO MUNDO</h3>
+<p>Ambiente climatizado, limpo e com espaço de sobra — você treina sem pressa e sem dividir equipamento.</p>
+</div>
+</div>
+
+<div class="slide">
+<img src="fotos/gym6.jpg" alt="Estação de cross-over central" loading="lazy">
+<div class="slide-caption">
+<span class="sctag">Piso Emborrachado</span>
+<h3>TREINO SEGURO, SEMPRE</h3>
+<p>Piso profissional em toda a área de treino, protegendo suas articulações e garantindo estabilidade em cada movimento.</p>
+</div>
+</div>
+
+<div class="slide">
+<img src="fotos/gym4.jpg" alt="Área da CorpoFit com identidade visual" loading="lazy">
+<div class="slide-caption">
+<span class="sctag">Bem-vindo à CorpoFit</span>
+<h3>O SEU LUGAR DE TREINO</h3>
+<p>Ambiente acolhedor, profissional e preparado pra receber você. Venha fazer uma aula experimental.</p>
+</div>
+</div>
+
+</div>
+
+<button class="car-btn car-prev" onclick="carMove(-1)" aria-label="Foto anterior">
+<svg viewBox="0 0 24 24"><path d="M15.5 3.5L7 12l8.5 8.5 1.4-1.4L9.8 12l7.1-7.1z"/></svg>
+</button>
+<button class="car-btn car-next" onclick="carMove(1)" aria-label="Próxima foto">
+<svg viewBox="0 0 24 24"><path d="M8.5 3.5L7.1 4.9 14.2 12l-7.1 7.1 1.4 1.4L17 12z"/></svg>
+</button>
+
+<div class="car-dots" id="carDots"></div>
+</div>
+</div>
+</section>
+
+<section class="sp price-section" id="preco">
+<div class="inner">
+<div class="stag">Investimento</div>
+<h2 class="stitle reveal">ESCOLHA SEU <span class="b">PLANO</span></h2>
+<p style="color:#5f6f90;font-size:15px;max-width:520px" class="reveal">Dois planos pra você começar do seu jeito — e evoluir quando quiser.</p>
+<div class="plans-grid">
+
+<div class="plan reveal">
+<div class="plan-name">Plano Funcional</div>
+<div class="plan-sub">Ideal pra quem quer começar</div>
+<div class="plan-price"><span class="currency">R$</span><span class="value">50</span><span class="period">/mês</span></div>
+<p class="plan-tagline">Foco em condicionamento, queima de gordura e disposição.<br>Treinos em grupo dinâmicos e motivadores.</p>
+<div class="plan-features">
+<div class="plan-feat"><div class="check">✓</div>Aulas Funcionais ilimitadas</div>
+<div class="plan-feat"><div class="check">✓</div>Acompanhamento do professor em aula</div>
+<div class="plan-feat"><div class="check">✓</div>Acesso em todos os horários de aula</div>
+<div class="plan-feat off"><div class="check">—</div>Musculação</div>
+<div class="plan-feat off"><div class="check">—</div>Personal Trainer</div>
+</div>
+<a href="https://wa.me/5563992261135?text=Oi!%20Tenho%20interesse%20no%20Plano%20Funcional%20(R%24%2050)" target="_blank" class="btn-o">💬 Quero o Funcional</a>
+</div>
+
+<div class="plan featured reveal">
+<div class="plan-name">Plano Completo</div>
+<div class="plan-sub">O que a maioria escolhe</div>
+<div class="plan-price"><span class="currency">R$</span><span class="value">90</span><span class="period">/mês</span></div>
+<p class="plan-tagline">Acesso total a todas as modalidades.<br>Monte seu treino combinando o que quiser, sem limite.</p>
+<div class="plan-features">
+<div class="plan-feat"><div class="check">✓</div>Aulas Funcionais ilimitadas</div>
+<div class="plan-feat"><div class="check">✓</div>Musculação Completa</div>
+<div class="plan-feat"><div class="check">✓</div>Acompanhamento de Personal Trainer</div>
+<div class="plan-feat"><div class="check">✓</div>Acesso em todos os horários</div>
+<div class="plan-feat"><div class="check">✓</div>Equipamentos modernos</div>
+</div>
+<a href="https://wa.me/5563992261135?text=Oi!%20Tenho%20interesse%20no%20Plano%20Completo%20(R%24%2090)" target="_blank" class="btn-p">💬 Quero o Completo</a>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="sp" id="horarios">
+<div class="inner">
+<div class="stag">Quando estamos abertos</div>
+<h2 class="stitle reveal">HORÁRIOS DE <span class="b">FUNCIONAMENTO</span></h2>
+<div class="hgrid">
+    <div class="hcard reveal">
+    <div class="hicon">🌅</div>
+    <div><div class="hday">Segunda a Sexta — Manhã</div><div class="htime">05:30 – 11:00</div></div>
+    </div>
+    <div class="hcard reveal">
+    <div class="hicon">🌆</div>
+    <div><div class="hday">Segunda a Sexta — Tarde/Noite</div><div class="htime">15:00 – 22:00</div></div>
+    </div>
+    <div class="hcard span2 reveal" style="grid-column:span 2">
+    <div class="hicon">📅</div>
+    <div><div class="hday">Sábado</div><div class="htime">15:00 – 19:00</div></div>
+    </div>
+</div>
+</div>
+</section>
+
+<section class="sp" id="localizacao">
+<div class="inner">
+<div class="stag">Onde nos encontrar</div>
+<h2 class="stitle reveal">NOSSA <span class="b">LOCALIZAÇÃO</span></h2>
+<p style="color:#5f6f90;font-size:15px;max-width:460px" class="reveal">Estamos na R. 18, Vila Norte — fácil acesso e estacionamento por perto.</p>
+<div class="map-wrap reveal">
+<iframe loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=CorpoFit+Academia+Araguaina+Rua+18+Vila+Norte&output=embed"></iframe>
+<div class="map-cta">
+<div class="map-addr"><strong>Endereço</strong>R. 18 — Vila Norte, Araguaína — TO, 77825-806</div>
+<a href="https://maps.app.goo.gl/W5iZGR21uFg3LbJH7" target="_blank" class="map-btn">📍 Traçar Rota</a>
+</div>
+</div>
+</div>
+</section>
+
+<section class="contato" id="contato">
+<div class="cinner">
+<div>
+    <div class="clogo"><img src="photo.png" alt="CorpoFit"></div>
+    <p class="ctag">Academia CorpoFit — onde cada treino é um passo mais perto do seu melhor. Venha nos visitar em Araguaína, TO.</p>
+</div>
+<div class="clinks">
+    <a href="https://wa.me/5563992261135" target="_blank" class="citem">
+    <div class="cicon">💬</div>
+    <div><div class="clabel">WhatsApp</div>(63) 99226-1135</div>
+    </a>
+    <a href="https://maps.app.goo.gl/W5iZGR21uFg3LbJH7" target="_blank" class="citem">
+    <div class="cicon">📍</div>
+    <div><div class="clabel">Localização</div>Ver no Google Maps</div>
+    </a>
+    <a href="https://www.instagram.com/corpo.fitacademia/" target="_blank" class="citem">
+    <div class="cicon">📸</div>
+    <div><div class="clabel">Instagram</div>@corpo.fitacademia</div>
+    </a>
+</div>
+</div>
+</section>
+
+<footer>
+<span>CORPOFIT</span> ACADEMIA — ARAGUAÍNA — (63) 99226-1135
+<span>© 2025 · ARCH-A-TECH</span>
+</footer>
+
+<script>
+const c=document.getElementById("c"),cr=document.getElementById("cr");
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+"px";c.style.top=my+"px"});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cr.style.left=rx+"px";cr.style.top=ry+"px";requestAnimationFrame(loop)})();
+document.querySelectorAll("a,button").forEach(el=>{
+el.addEventListener("mouseenter",()=>{c.style.width="20px";c.style.height="20px";cr.style.width="58px";cr.style.height="58px"});
+el.addEventListener("mouseleave",()=>{c.style.width="10px";c.style.height="10px";cr.style.width="34px";cr.style.height="34px"});
+});
+const pts=document.getElementById("pts");
+for(let i=0;i<24;i++){
+const p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(9+Math.random()*14)+"s";
+p.style.animationDelay=(-Math.random()*20)+"s";
+p.style.width=(1+Math.random()*3)+"px";
+p.style.height=p.style.width;
+pts.appendChild(p);
+}
+const obs=new IntersectionObserver(es=>es.forEach((e,i)=>{
+if(e.isIntersecting)setTimeout(()=>e.target.classList.add("visible"),i*70);
+}),{threshold:.1});
+document.querySelectorAll(".reveal").forEach(r=>obs.observe(r));
+document.querySelectorAll(".scard").forEach(card=>{
+card.addEventListener("mousemove",e=>{
+const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+card.style.transform="translateY(-10px) rotateX("+(-y*10)+"deg) rotateY("+(x*10)+"deg)";
+});
+card.addEventListener("mouseleave",()=>{card.style.transform=""});
+});
+window.addEventListener("scroll",()=>{
+document.getElementById("nav").classList.toggle("scrolled",scrollY>50);
+});
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("open")}
+
+// Carrossel da galeria
+(function(){
+const track=document.getElementById("carouselTrack"),dotsBox=document.getElementById("carDots"),carousel=document.getElementById("carousel");
+if(!track)return;
+const slides=track.querySelectorAll(".slide");
+let idx=0,timer=null,paused=false;
+// cria dots
+slides.forEach((_,i)=>{
+  const d=document.createElement("button");
+  d.className="car-dot"+(i===0?" active":"");
+  d.setAttribute("aria-label","Ir para foto "+(i+1));
+  d.addEventListener("click",()=>go(i,true));
+  dotsBox.appendChild(d);
+});
+const dots=dotsBox.querySelectorAll(".car-dot");
+function go(n,manual){
+  idx=(n+slides.length)%slides.length;
+  track.style.transform="translateX(-"+(idx*100)+"%)";
+  slides.forEach((s,i)=>s.classList.toggle("active",i===idx));
+  dots.forEach((d,i)=>d.classList.toggle("active",i===idx));
+  if(manual)restart();
+}
+window.carMove=function(dir){go(idx+dir,true)};
+function start(){timer=setInterval(()=>{if(!paused)go(idx+1)},5500)}
+function restart(){clearInterval(timer);start()}
+carousel.addEventListener("mouseenter",()=>paused=true);
+carousel.addEventListener("mouseleave",()=>paused=false);
+// swipe mobile
+let tx=0;
+carousel.addEventListener("touchstart",e=>{tx=e.touches[0].clientX},{passive:true});
+carousel.addEventListener("touchend",e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>45)go(idx+(dx<0?1:-1),true);
+},{passive:true});
+// teclado
+document.addEventListener("keydown",e=>{
+  const r=carousel.getBoundingClientRect();
+  if(r.top<innerHeight&&r.bottom>0){
+    if(e.key==="ArrowLeft")go(idx-1,true);
+    if(e.key==="ArrowRight")go(idx+1,true);
+  }
+});
+start();
+})();
+</script>
+</body>
+</html>
